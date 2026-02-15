@@ -1,4 +1,3 @@
-// Types e Interfaces
 export interface User {
   id: string;
   email: string;
@@ -32,5 +31,14 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   name: string;
+  password: string;
+}
+
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
   password: string;
 }

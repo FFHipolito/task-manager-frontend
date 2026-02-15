@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import { authAPI } from '@/lib/api';
-import type { LoginRequest, RegisterRequest } from '@/types';
+import type { LoginRequest, RegisterRequest, ForgotPasswordRequest, ResetPasswordRequest } from '@/types';
 import toast from 'react-hot-toast';
 
 export const useAuth = () => {
@@ -42,11 +42,46 @@ export const useAuth = () => {
     [setAuth, router],
   );
 
+  const forgotPassword = useCallback(
+    async (data: ForgotPasswordRequest) => {
+      try {
+        await authAPI.forgotPassword(data);
+        toast.success('Email de recuperação enviado! Verifique sua caixa de entrada.');
+      } catch (error: any) {
+        const message = error.response?.data?.message || 'Erro ao solicitar recuperação de senha';
+        toast.error(message);
+        throw error;
+      }
+    },
+    [],
+  );
+
+  const resetPassword = useCallback(
+    async (data: ResetPasswordRequest) => {
+      try {
+        await authAPI.resetPassword(data);
+        toast.success('Senha redefinida com sucesso!');
+        router.push('/login');
+      } catch (error: any) {
+        const message = error.response?.data?.message || 'Erro ao redefinir senha';
+        toast.error(message);
+        throw error;
+      }
+    },
+    [router],
+  );
+
   const handleLogout = useCallback(() => {
     logout();
     toast.success('Desconectado com sucesso!');
     router.push('/login');
   }, [logout, router]);
 
-  return { login, register, logout: handleLogout };
+  return { 
+    login, 
+    register, 
+    logout: handleLogout,
+    forgotPassword,
+    resetPassword 
+  };
 };

@@ -9,6 +9,7 @@ import { useTasksStore } from '@/store/tasks';
 import { useTasks } from '@/hooks/useTasks';
 import TaskItem from '@/components/TaskItem';
 import toast from 'react-hot-toast';
+import { Plus, ClipboardList, Clock, CheckCircle } from 'lucide-react';
 
 export default function DashboardPage() {
   return (
@@ -63,7 +64,7 @@ function TasksDashboard() {
       const created = await createTask({
         title: newTask.title,
         description: newTask.description || undefined,
-        priority: newTask.priority,
+        priority: newTask.priority as "LOW" | "MEDIUM" | "HIGH" | "URGENT",
         dueDate: newTask.dueDate || undefined,
         status: 'PENDING',
       });
@@ -89,11 +90,10 @@ function TasksDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
-        <p className="text-gray-600">Gerencie suas tarefas de forma eficiente</p>
+        <h1 className="text-4xl font-bold text-gray-300 mb-2">Dashboard</h1>
+        <p className="text-gray-100">Gerencie suas tarefas de forma eficiente</p>
       </div>
 
-      {/* Estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <div className="text-center">
@@ -121,15 +121,15 @@ function TasksDashboard() {
         </Card>
       </div>
 
-      {/* Formulário de nova tarefa */}
       {showForm && (
         <Card>
-          <h2 className="text-xl font-bold mb-4">Nova Tarefa</h2>
+          <h2 className="text-xl text-gray-400 font-bold mb-4">Nova Tarefa</h2>
           <form onSubmit={handleCreateTask} className="space-y-4">
             <Input
               label="Título"
               type="text"
               placeholder="Digite o título da tarefa"
+              className='text-gray-500'
               value={newTask.title}
               onChange={(e) => setNewTask((prev) => ({ ...prev, title: e.target.value }))}
               required
@@ -141,7 +141,7 @@ function TasksDashboard() {
                 placeholder="Digite a descrição (opcional)"
                 value={newTask.description}
                 onChange={(e) => setNewTask((prev) => ({ ...prev, description: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 rows={3}
               />
             </div>
@@ -152,7 +152,7 @@ function TasksDashboard() {
                 <select
                   value={newTask.priority}
                   onChange={(e) => setNewTask((prev) => ({ ...prev, priority: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                  className="w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-lg"
                 >
                   <option value="LOW">Baixa</option>
                   <option value="MEDIUM">Média</option>
@@ -167,7 +167,7 @@ function TasksDashboard() {
                   type="date"
                   value={newTask.dueDate}
                   onChange={(e) => setNewTask((prev) => ({ ...prev, dueDate: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                  className="w-full px-4 py-2 text-gray-500 border border-gray-300 rounded-lg"
                 />
               </div>
             </div>
@@ -186,11 +186,10 @@ function TasksDashboard() {
 
       {!showForm && (
         <Button variant="primary" onClick={() => setShowForm(true)} size="lg">
-          ➕ Nova Tarefa
+          <Plus className="w-5 h-5 mr-2" /> Nova Tarefa
         </Button>
       )}
 
-      {/* Lista de tarefas */}
       {isLoading ? (
         <div className="text-center py-8">Carregando tarefas...</div>
       ) : tasks.length === 0 ? (
@@ -206,7 +205,10 @@ function TasksDashboard() {
         <div className="space-y-6">
           {pendingTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">📋 Pendentes ({pendingTasks.length})</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <ClipboardList className="w-6 h-6 mr-2 text-yellow-600" />
+                Pendentes ({pendingTasks.length})
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pendingTasks.map((task) => (
                   <TaskItem key={task.id} task={task} />
@@ -217,7 +219,10 @@ function TasksDashboard() {
 
           {inProgressTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">⏳ Em Progresso ({inProgressTasks.length})</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Clock className="w-6 h-6 mr-2 text-blue-600" />
+                Em Progresso ({inProgressTasks.length})
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {inProgressTasks.map((task) => (
                   <TaskItem key={task.id} task={task} />
@@ -228,7 +233,10 @@ function TasksDashboard() {
 
           {completedTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">✅ Concluídas ({completedTasks.length})</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <CheckCircle className="w-6 h-6 mr-2 text-green-600" />
+                Concluídas ({completedTasks.length})
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {completedTasks.map((task) => (
                   <TaskItem key={task.id} task={task} />
