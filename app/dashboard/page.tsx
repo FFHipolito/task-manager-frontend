@@ -205,7 +205,7 @@ function TasksDashboard() {
         <div className="space-y-6">
           {pendingTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-gray-400 mb-4 flex items-center">
                 <ClipboardList className="w-6 h-6 mr-2 text-yellow-600" />
                 Pendentes ({pendingTasks.length})
               </h2>
@@ -219,7 +219,7 @@ function TasksDashboard() {
 
           {inProgressTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-gray-400 mb-4 flex items-center">
                 <Clock className="w-6 h-6 mr-2 text-blue-600" />
                 Em Progresso ({inProgressTasks.length})
               </h2>
@@ -233,7 +233,7 @@ function TasksDashboard() {
 
           {completedTasks.length > 0 && (
             <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-xl font-bold text-gray-400 mb-4 flex items-center">
                 <CheckCircle className="w-6 h-6 mr-2 text-green-600" />
                 Concluídas ({completedTasks.length})
               </h2>

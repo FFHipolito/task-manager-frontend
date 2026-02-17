@@ -83,7 +83,7 @@ export default function TaskItem({ task }: { task: Task }) {
             type="text"
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg"
             placeholder="Título da tarefa"
           />
 
@@ -91,7 +91,7 @@ export default function TaskItem({ task }: { task: Task }) {
             <select
               value={editStatus}
               onChange={(e) => setEditStatus(e.target.value as any)}
-              className="px-3 py-2 border border-gray-300 rounded-lg"
+              className="px-3 py-2 text-gray-600 border border-gray-300 rounded-lg"
             >
               <option value="PENDING">Pendente</option>
               <option value="IN_PROGRESS">Em Progresso</option>
@@ -102,7 +102,7 @@ export default function TaskItem({ task }: { task: Task }) {
             <select
               value={editPriority}
               onChange={(e) => setEditPriority(e.target.value as any)}
-              className="px-3 py-2 border border-gray-300 rounded-lg"
+              className="px-3 py-2 text-gray-600 border border-gray-300 rounded-lg"
             >
               <option value="LOW">Baixa</option>
               <option value="MEDIUM">Média</option>
